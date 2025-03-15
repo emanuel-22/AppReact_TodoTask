@@ -13,19 +13,37 @@ import { CreateTodoButton } from './CreateTodoButton';
   { text: 'Usar estados derivados', completed: true },
 ];
 
-localStorage.setItem('TODOS_V1', defaultTodos) */
+localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos));
+localStorage.removeItem( 'TODOS_V1');*/
+
+function useLocalStorage(itemName, initialValue){
+
+  const localStorageItem = localStorage.getItem(itemName);
+  let parsedItem;
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify(initialValue));
+    parsedItem = initialValue;
+  } else {
+    parsedItem = JSON.parse(localStorageItem);
+  }
+  const[item, setItem] = React.useState(parsedItem);
+
+  const saveItem = (newItem) => {
+    localStorage.setItem(itemName, JSON.stringify(newItem));
+    setItem(newItem);
+  };
+
+  return [item, saveItem];
+}
 
 function App() {
-  const localStorageTodos = localStorage.getItem('TODOS_V1');
-  let parsedTodos = JSON.parse(localStorageTodos);
-
-  const [todos, setTodos] = React.useState(parsedTodos); // Este es el estado inicial de mi aplicacion
+  
+  const [todos, saveTodos] = useLocalStorage('TODOS_V1',[]);
   const [searchValue, setSearchValue] = React.useState('');
 
   const completedTodos = todos.filter(
     todo => !!todo.completed
   ).length;
-
   const totalTodos = todos.length;
 
   const searchedTodos = todos.filter(
@@ -36,24 +54,24 @@ function App() {
     }
   );
 
-  // para marcar como completo
+  
+ 
   const completeTodo = (text) => {
-    const newTodos = [...todos]; // para armar una copia de el array todos
+    const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text == text
     );
     newTodos[todoIndex].completed = true;
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
 
-  // para eliminar
   const deleteTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
       (todo) => todo.text == text
     );
-    newTodos.splice(todoIndex, 1); 
-    setTodos(newTodos);
+    newTodos.splice(todoIndex, 1);
+    saveTodos(newTodos);
   };
   
   return (
