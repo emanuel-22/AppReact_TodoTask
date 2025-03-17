@@ -1,9 +1,5 @@
 import React from 'react';
-import { TodoCounter } from '../TodoCounter';
-import { TodoSearch } from '../TodoSearch';
-import { TodoList } from '../TodoList';
-import { TodoItem } from '../TodoItem';
-import { CreateTodoButton } from '../CreateTodoButton';
+import {AppUI} from './AppUI'
 import { useLocalStorage } from './useLocalStorage';
 
 /* const defaultTodos = [
@@ -19,13 +15,31 @@ localStorage.removeItem( 'TODOS_V1');*/
 
 function App() {
   
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1',[]);
+  const {
+    // renombramos item por todos
+    item: todos, 
+    // renombramos saveItem por saveTodos
+    saveItem: saveTodos, 
+    loading, 
+    error
+  } = useLocalStorage('TODOS_V1',[]);
   const [searchValue, setSearchValue] = React.useState('');
 
   const completedTodos = todos.filter(
     todo => !!todo.completed
   ).length;
   const totalTodos = todos.length;
+
+  //console.log('Log 1'); 
+  // React.useEffect(()=>{ console.log('Log 2'); });
+  // React.useEffect(()=>{
+  //   console.log('Log 2'); 
+  // }, []);
+  // Se ejecuta el console log cada vez que cambie el estado derivado totalTodos
+  // React.useEffect(()=>{
+  //   console.log('Log 2'); 
+  // }, [totalTodos]);
+  // console.log('Log 3');
 
   const searchedTodos = todos.filter(
     (todo) => {
@@ -35,12 +49,10 @@ function App() {
     }
   );
 
-  
- 
   const completeTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     );
     newTodos[todoIndex].completed = true;
     saveTodos(newTodos);
@@ -49,38 +61,23 @@ function App() {
   const deleteTodo = (text) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
+      (todo) => todo.text === text
     );
     newTodos.splice(todoIndex, 1);
     saveTodos(newTodos);
   };
   
-  return (
-    <>
-      <TodoCounter
-        completed={completedTodos}
-        total={totalTodos} 
-      />
-      <TodoSearch
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-
-      <TodoList>
-        {searchedTodos.map(todo => (
-          <TodoItem
-            key={todo.text}
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
-      </TodoList>
-      
-      <CreateTodoButton />
-    </>
-  );
+  return (<AppUI 
+    loading = {loading}
+    error = {error}
+    completedTodos={completedTodos}
+    totalTodos={totalTodos}
+    searchValue={searchValue}
+    setSearchValue={setSearchValue}
+    searchedTodos={searchedTodos}
+    completeTodo={completeTodo}
+    deleteTodo={deleteTodo}
+  />);
 }
 
 export default App;
