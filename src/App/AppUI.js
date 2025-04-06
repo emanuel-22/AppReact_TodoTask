@@ -8,35 +8,31 @@ import {TodosError} from '../TodosError';
 import {EmptyTodos} from '../EmptyTodos';
 
 import { CreateTodoButton } from '../CreateTodoButton';
+import { Modal } from '../Modal';
+import { TodoContext } from '../TodoContext';
 
-function AppUI({
-  loading,
-  error,
-  completedTodos, 
-  totalTodos,
-  searchValue,
-  setSearchValue,
-  searchedTodos,
-  completeTodo,
-  deleteTodo
-}){
+import React from 'react';
+
+function AppUI(){
+
+  const {
+    loading,
+    error,
+    searchedTodos,
+    completeTodo,
+    deleteTodo,
+    openModal,
+    setOpenModal
+  } = React.useContext(TodoContext);
+
   return (
     <>
-      <TodoCounter
-        completed={completedTodos}
-        total={totalTodos} 
-      />
-      <TodoSearch
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
-
+      <TodoCounter />
+      <TodoSearch  />
       <TodoList>
         {loading && <TodosLoading/>}
         {error && <TodosError/>}
         {(!loading && searchedTodos.length === 0) && <EmptyTodos/>}
-
-
         {searchedTodos.map(todo => (
           <TodoItem
             key={todo.text}
@@ -47,7 +43,9 @@ function AppUI({
           />
         ))}
       </TodoList>
-      
+
+      {openModal && (<Modal>La funcionalidad de agregar</Modal>)}
+
       <CreateTodoButton />
     </>
   );
