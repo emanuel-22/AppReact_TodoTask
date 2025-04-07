@@ -8,6 +8,8 @@ import {TodosError} from '../TodosError';
 import {EmptyTodos} from '../EmptyTodos';
 
 import { CreateTodoButton } from '../CreateTodoButton';
+import { TodoForm } from '../TodoForm';
+
 import { Modal } from '../Modal';
 import { TodoContext } from '../TodoContext';
 
@@ -44,9 +46,11 @@ function AppUI(){
         ))}
       </TodoList>
 
-      {openModal && (<Modal>La funcionalidad de agregar</Modal>)}
+      {openModal && (
+        <Modal><TodoForm/></Modal>
+      )}
 
-      <CreateTodoButton />
+      <CreateTodoButton setOpenModal={setOpenModal} />
     </>
   );
 }
