@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/AppReact_TodoTask/static/css/main.b3e41b23.css",
+    "main.js": "/AppReact_TodoTask/static/js/main.16aacbc7.js",
+    "index.html": "/AppReact_TodoTask/index.html",
+    "static/media/delete.svg": "/AppReact_TodoTask/static/media/delete.7018c4465589031bd51c8efbe21df9ca.svg",
+    "static/media/check.svg": "/AppReact_TodoTask/static/media/check.e9a948bba52a34123d2ed7aeda0ea495.svg",
+    "main.b3e41b23.css.map": "/AppReact_TodoTask/static/css/main.b3e41b23.css.map",
+    "main.16aacbc7.js.map": "/AppReact_TodoTask/static/js/main.16aacbc7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b3e41b23.css",
+    "static/js/main.16aacbc7.js"
+  ]
+}
