@@ -1,4 +1,4 @@
-# Repositorio del Curso de React.js 
+# Repositorio para crear una Aplicación To-do de React.js 
 
 En este repositorio encontrarás el código en una aplicación React. 
 
